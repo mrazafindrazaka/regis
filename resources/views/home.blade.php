@@ -1,5 +1,5 @@
 @extends('layouts.app')
 
 @section('content')
-    <example-component v-bind:user="{{ $user }}"></example-component>
+    <create-component v-bind:user="{{ $user }}"></create-component>
 @endsection
