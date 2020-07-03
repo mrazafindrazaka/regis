@@ -1,9 +1,10 @@
 <template>
     <div class="container-fluid">
+        <div id="test"></div>
         <div class="row">
             <div class="col-md-7 col-sm-12 mb-3">
                 <div class="card">
-                    <div class="card-header text-center">Créer un reçu</div>
+                    <div class="card-header text-center">Modifier un reçu</div>
 
                     <div class="card-body">
                         <div class="row mb-3 f-between">
@@ -11,7 +12,7 @@
                                 <div class="row">
                                     <div class="col-4 f-end">Cimetière</div>
                                     <div class="col-8">
-                                        <select v-model="cimetiere" class="form-control">
+                                        <select v-model="info['cimetiere']" class="form-control">
                                             <option>de Préville</option>
                                             <option>du Sud</option>
                                         </select>
@@ -22,7 +23,7 @@
                                 <div class="row">
                                     <div class="col-4 f-end">Concession</div>
                                     <div class="col-8">
-                                        <input type="text" v-model="concession" class="form-control">
+                                        <input type="text" v-model="info['concession']" class="form-control">
                                     </div>
                                 </div>
                             </div>
@@ -30,13 +31,13 @@
                         <div class="row mb-3">
                             <div class="col-3 text-handler f-end">Reçu de M/MME :</div>
                             <div class="col-9">
-                                <input type="text" v-model="recu" class="form-control">
+                                <input type="text" v-model="info['recu']" class="form-control">
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-3 text-handler f-end">La somme de :</div>
                             <div class="col-9">
-                                <input type="text" v-model="somme" class="form-control">
+                                <input type="text" v-model="info['somme']" class="form-control">
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -46,96 +47,94 @@
                         <div class="row mb-3">
                             <div class="col-3 text-handler f-end">Concession de sépulture pour une durée de :</div>
                             <div class="col-7">
-                                <input type="text" v-model="concessionsep" class="form-control">
+                                <input type="text" v-model="info['concessionsep']" class="form-control">
                             </div>
                             <div class="col-2">
-                                <input type="number" pattern="[0-9]*" v-model="concessionsep_montant" @input="calc" class="form-control">
+                                <input type="number" v-model="info['concessionsep_montant']" class="form-control">
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-3 text-handler f-end">Columbarium 1 case 2 urnes pour :</div>
                             <div class="col-7">
-                                <input type="text" v-model="columbarium1" class="form-control">
+                                <input type="text" v-model="info['colombarium1']" class="form-control">
                             </div>
                             <div class="col-2">
-                                <input type="number" v-model="columbarium1_montant" @input="calc" class="form-control">
+                                <input type="number" v-model="info['columbarium1_montant']" class="form-control">
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-3 text-handler f-end">Columbarium 1 case 4 urnes pour :</div>
                             <div class="col-7">
-                                <input type="text" v-model="columbarium2" class="form-control">
+                                <input type="text" v-model="info['columbarium2']" class="form-control">
                             </div>
                             <div class="col-2">
-                                <input type="number" v-model="columbarium2_montant" @input="calc" class="form-control">
+                                <input type="number" v-model="info['columbarium2_montant']" class="form-control">
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-3 text-handler f-end">Concession cinéraire pour une durée de :</div>
                             <div class="col-7">
-                                <input type="text" v-model="concessioncine" class="form-control">
+                                <input type="text" v-model="info['concessioncine']" class="form-control">
                             </div>
                             <div class="col-2">
-                                <input type="number" v-model="concessioncine_montant" @input="calc"
-                                       class="form-control">
+                                <input type="number" v-model="info['concessioncine_montant']" class="form-control">
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-3 text-handler f-end">Enregistrement :</div>
                             <div class="col-7">
-                                <input type="text" v-model="enregistrement" class="form-control">
+                                <input type="text" v-model="info['enregistrement']" class="form-control">
                             </div>
                             <div class="col-2">
-                                <input type="number" v-model="enregistrement_montant" @input="calc"
-                                       class="form-control">
+                                <input type="number" v-model="info['enregistrement_montant']" class="form-control">
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-3 text-handler f-end">Taxe inhumation :</div>
                             <div class="col-5">
-                                <input type="text" v-model="inhumation" class="form-control">
+                                <input type="text" v-model="info['inhumation']" class="form-control">
                             </div>
                             <div class="col-1">
-                                <input type="number" v-model="inhumation_count" @input="calc" class="form-control">
+                                <input type="number" v-model="info['inhumation_count']" class="form-control">
                             </div>
                             <div class="col-1 text-handler f-end">x 108.00€</div>
                             <div class="col-2">
-                                <input type="number" v-model="inhumation_montant" class="form-control" disabled>
+                                <input type="number" v-model="info['inhumation_montant']" class="form-control">
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-3 text-handler f-end">Vacation de police :</div>
                             <div class="col-5">
-                                <input type="text" v-model="vacation" class="form-control">
+                                <input type="text" v-model="info['vacation']" class="form-control">
                             </div>
                             <div class="col-1">
-                                <input type="number" v-model="vacation_count" @input="calc" class="form-control">
+                                <input type="number" v-model="info['vacation_count']" class="form-control">
                             </div>
                             <div class="col-1 text-handler f-end">x 20.00€</div>
                             <div class="col-2">
-                                <input type="number" v-model="vacation_montant" class="form-control" disabled>
+                                <input type="number" v-model="info['vacation_montant']" class="form-control">
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-3 text-handler f-end">Caveau désaffecté de :</div>
                             <div class="col-2">
-                                <input type="number" v-model="caveau_count" class="form-control">
+                                <input type="number" v-model="info['caveau_count']" class="form-control">
                             </div>
                             <div class="col-1 text-handler f-end">cases</div>
                             <div class="col-4">
-                                <input type="text" v-model="caveau" class="form-control">
+                                <input type="text" v-model="info['caveau']" class="form-control">
                             </div>
                             <div class="col-2">
-                                <input type="number" v-model="caveau_montant" @input="calc" class="form-control">
+                                <input type="number" v-model="info['caveau_montant']" class="form-control">
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-3 text-handler f-end">Vente de monument désaffecté :</div>
                             <div class="col-7">
-                                <input type="text" v-model="monument" class="form-control">
+                                <input type="text" v-model="info['monument']" class="form-control">
                             </div>
                             <div class="col-2">
-                                <input type="number" v-model="monument_montant" @input="calc" class="form-control">
+                                <input type="number" v-model="info['monument_montant']" class="form-control">
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -143,13 +142,13 @@
                                 Total
                             </div>
                             <div class="col-2">
-                                <input type="number" v-model="total_montant" class="form-control" disabled>
+                                <input type="number" v-model="info['total_montant']" class="form-control">
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-3 text-handler f-end">Le régisseur :</div>
                             <div class="col-7">
-                                <input type="text" v-model="regisseur" class="form-control" disabled>
+                                <input type="text" v-model="info['regisseur']" class="form-control" disabled>
                             </div>
                         </div>
                     </div>
@@ -189,13 +188,13 @@
                                             <label class="form-check-label" for="cb">Cb</label>
                                         </div>
                                     </div>
-                                    <div class="col-12 mb-3">
-                                        <div>Banque</div>
-                                        <input type="text" v-model="banque" class="form-control">
-                                    </div>
                                     <div class="col-12">
                                         <div>Numéro</div>
-                                        <input type="number" v-model="numero" class="form-control">
+                                        <input type="text" v-model="info['numero']" class="form-control mb-3">
+                                    </div>
+                                    <div class="col-12">
+                                        <div>Banque</div>
+                                        <input type="text" v-model="info['banque']" class="form-control">
                                     </div>
                                 </div>
                             </div>
@@ -204,7 +203,7 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <button class="btn btn-danger mr-3" v-on:click="create_regis">Créer le reçu</button>
+                                <button class="btn btn-danger mr-3" v-if="isActive === 1" v-on:click="update_regis">Modifier le reçu</button>
                                 <button class="btn btn-dark" v-on:click="redirect_path('/')">Retour au menu</button>
                             </div>
                         </div>
@@ -219,109 +218,89 @@
     import axios from 'axios';
 
     export default {
-        props: ['user'],
+        props: ['id'],
         data: function () {
             return {
                 stock: {},
-                regisseur: this.user.name,
-                cimetiere: '',
-                concession: '',
-                recu: '',
-                somme: '',
-                concessionsep: '',
-                concessionsep_montant: '',
-                columbarium1: '',
-                columbarium1_montant: '',
-                columbarium2: '',
-                columbarium2_montant: '',
-                concessioncine: '',
-                concessioncine_montant: '',
-                enregistrement: '',
-                enregistrement_montant: '',
-                inhumation: '',
-                inhumation_count: '',
-                inhumation_montant: '',
-                vacation: '',
-                vacation_count: '',
-                vacation_montant: '',
-                caveau_count: '',
-                caveau: '',
-                caveau_montant: '',
-                monument: '',
-                monument_montant: '',
-                total_montant: '',
-                numero: '',
-                banque: '',
-                checked: []
+                info: [],
+                checked: [],
+                isActive: 1
             };
         },
         methods: {
-            create_regis: function () {
-                Object.assign(this.stock, {'cimetiere': this.cimetiere});
-                Object.assign(this.stock, {'concession': this.concession});
-                Object.assign(this.stock, {'recu': this.recu});
-                Object.assign(this.stock, {'somme': this.somme});
-                Object.assign(this.stock, {'concessionsep': this.concessionsep});
-                Object.assign(this.stock, {'concessionsep_montant': this.concessionsep_montant});
-                Object.assign(this.stock, {'columbarium1': this.columbarium1});
-                Object.assign(this.stock, {'columbarium1_montant': this.columbarium1_montant});
-                Object.assign(this.stock, {'columbarium2': this.columbarium2});
-                Object.assign(this.stock, {'columbarium2_montant': this.columbarium2_montant});
-                Object.assign(this.stock, {'concessioncine': this.concessioncine});
-                Object.assign(this.stock, {'concessioncine_montant': this.concessioncine_montant});
-                Object.assign(this.stock, {'enregistrement': this.enregistrement});
-                Object.assign(this.stock, {'enregistrement_montant': this.enregistrement_montant});
-                Object.assign(this.stock, {'inhumation': this.inhumation});
-                Object.assign(this.stock, {'inhumation_count': this.inhumation_count});
-                Object.assign(this.stock, {'inhumation_montant': this.inhumation_montant});
-                Object.assign(this.stock, {'vacation': this.vacation});
-                Object.assign(this.stock, {'vacation_count': this.vacation_count});
-                Object.assign(this.stock, {'vacation_montant': this.vacation_montant});
-                Object.assign(this.stock, {'caveau_count': this.caveau_count});
-                Object.assign(this.stock, {'caveau': this.caveau});
-                Object.assign(this.stock, {'caveau_montant': this.caveau_montant});
-                Object.assign(this.stock, {'monument': this.monument});
-                Object.assign(this.stock, {'monument_montant': this.monument_montant});
-                Object.assign(this.stock, {'total_montant': this.total_montant});
-                Object.assign(this.stock, {'regisseur': this.regisseur});
+            update_regis: function () {
+                Object.assign(this.stock, {'cimetiere': this.info['cimetiere']});
+                Object.assign(this.stock, {'concession': this.info['concession']});
+                Object.assign(this.stock, {'recu': this.info['recu']});
+                Object.assign(this.stock, {'somme': this.info['somme']});
+                Object.assign(this.stock, {'concessionsep': this.info['concessionsep']});
+                Object.assign(this.stock, {'concessionsep_montant': this.info['concessionsep_montant']});
+                Object.assign(this.stock, {'columbarium1': this.info['columbarium1']});
+                Object.assign(this.stock, {'columbarium1_montant': this.info['columbarium1_montant']});
+                Object.assign(this.stock, {'columbarium2': this.info['columbarium2']});
+                Object.assign(this.stock, {'columbarium2_montant': this.info['columbarium2_montant']});
+                Object.assign(this.stock, {'concessioncine': this.info['concessioncine']});
+                Object.assign(this.stock, {'concessioncine_montant': this.info['concessioncine_montant']});
+                Object.assign(this.stock, {'enregistrement': this.info['enregistrement']});
+                Object.assign(this.stock, {'enregistrement_montant': this.info['enregistrement_montant']});
+                Object.assign(this.stock, {'inhumation': this.info['inhumation']});
+                Object.assign(this.stock, {'inhumation_count': this.info['inhumation_count']});
+                Object.assign(this.stock, {'inhumation_montant': this.info['inhumation_montant']});
+                Object.assign(this.stock, {'vacation': this.info['vacation']});
+                Object.assign(this.stock, {'vacation_count': this.info['vacation_count']});
+                Object.assign(this.stock, {'vacation_montant': this.info['vacation_montant']});
+                Object.assign(this.stock, {'caveau_count': this.info['caveau_count']});
+                Object.assign(this.stock, {'caveau': this.info['caveau']});
+                Object.assign(this.stock, {'caveau_montant': this.info['caveau_montant']});
+                Object.assign(this.stock, {'monument': this.info['monument']});
+                Object.assign(this.stock, {'monument_montant': this.info['monument_montant']});
+                Object.assign(this.stock, {'total_montant': this.info['total_montant']});
+                Object.assign(this.stock, {'regisseur': this.info['regisseur']});
                 Object.assign(this.stock, {'paiement': this.checked});
-                Object.assign(this.stock, {'numero': this.numero});
-                Object.assign(this.stock, {'banque': this.banque});
-                axios.post('/infos', this.stock).then(res => {
-                    window.location.href = '/';
+                Object.assign(this.stock, {'numero': this.info['numero']});
+                Object.assign(this.stock, {'banque': this.info['banque']});
+                axios.put('/infos/' + this.id, this.stock).then(res => {
+                    alert('Reçu modifié!')
                 });
-            },
-            calc: function () {
-                let total = 0;
-
-                if (this.inhumation_count !== '')
-                    this.inhumation_montant = this.inhumation_count * 108;
-                else
-                    this.inhumation_montant = '';
-                if (this.vacation_count !== '')
-                    this.vacation_montant = this.vacation_count * 20;
-                else
-                    this.vacation_montant = '';
-                if (this.concessionsep_montant !== '')
-                    total += parseFloat(this.concessionsep_montant);
-                if (this.columbarium1_montant !== '')
-                    total += parseFloat(this.columbarium1_montant);
-                if (this.columbarium2_montant !== '')
-                    total += parseFloat(this.columbarium2_montant);
-                if (this.concessioncine_montant !== '')
-                    total += parseFloat(this.concessioncine_montant);
-                if (this.enregistrement_montant !== '')
-                    total += parseFloat(this.enregistrement_montant);
-                if (this.inhumation_montant !== '')
-                    total += parseFloat(this.inhumation_montant);
-                if (this.vacation_montant !== '')
-                    total += parseFloat(this.vacation_montant);
-                if (this.caveau_montant !== '')
-                    total += parseFloat(this.caveau_montant);
-                if (this.monument_montant !== '')
-                    total += parseFloat(this.monument_montant);
-                this.total_montant = total;
             }
+        },
+        mounted() {
+            axios.get('/infos/' + this.id).then(res => {
+                res.data.info = JSON.parse(res.data.info);
+                const data = res.data.info;
+                this.isActive = res.data.active;
+
+                this.info['regisseur'] = data.regisseur;
+                this.info['cimetiere'] = data.cimetiere;
+                this.info['concession'] = data.concession;
+                this.info['recu'] = data.recu;
+                this.info['somme'] = data.somme;
+                this.info['concessionsep'] = data.concessionsep;
+                this.info['concessionsep_montant'] = data.concessionsep_montant;
+                this.info['columbarium1'] = data.columbarium1;
+                this.info['columbarium1_montant'] = data.columbarium1_montant;
+                this.info['columbarium2'] = data.columbarium2;
+                this.info['columbarium2_montant'] = data.columbarium2_montant;
+                this.info['concessioncine'] = data.concessioncine;
+                this.info['concessioncine_montant'] = data.concessioncine_montant;
+                this.info['enregistrement'] = data.enregistrement;
+                this.info['enregistrement_montant'] = data.enregistrement_montant;
+                this.info['inhumation'] = data.inhumation;
+                this.info['inhumation_count'] = data.inhumation_count;
+                this.info['inhumation_montant'] = data.inhumation_montant;
+                this.info['vacation'] = data.vacation;
+                this.info['vacation_count'] = data.vacation_count;
+                this.info['vacation_montant'] = data.vacation_montant;
+                this.info['caveau_count'] = data.caveau_count;
+                this.info['caveau'] = data.caveau;
+                this.info['caveau_montant'] = data.caveau_montant;
+                this.info['monument'] = data.monument;
+                this.info['monument_montant'] = data.monument_montant;
+                this.info['total_montant'] = data.total_montant;
+                this.info['numero'] = data.numero;
+                this.info['banque'] = data.banque;
+                this.checked = data.paiement;
+            });
         }
     }
 </script>

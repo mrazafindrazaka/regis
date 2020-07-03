@@ -4,8 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Test extends Model
+class Infos extends Model
 {
     protected $table = 'json';
-    protected $fillable = ['info'];
+    protected $fillable = ['info', 'active'];
 }

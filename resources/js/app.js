@@ -5,6 +5,8 @@
  */
 
 require('./bootstrap');
+window.$ = require('jquery');
+window.JQuery = require('jquery');
 
 window.Vue = require('vue');
 
@@ -20,6 +22,18 @@ window.Vue = require('vue');
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('create-component', require('./components/CreateComponent.vue').default);
+Vue.component('detail-component', require('./components/DetailComponent.vue').default);
+Vue.component('home-component', require('./components/HomeComponent.vue').default);
+
+Vue.mixin({
+    methods: {
+        redirect_path: function (path) {
+            window.location.href = path;
+        }
+    }
+});
+
+Vue.use(require('vue-moment'));
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

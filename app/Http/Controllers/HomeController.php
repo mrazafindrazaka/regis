@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Test;
+use App\Infos;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 
@@ -22,7 +22,7 @@ class HomeController extends Controller
      * Show the application dashboard.
      *
      * @param Request $request
-     * @return Renderable
+     * @return string
      */
     public function index(Request $request)
     {
@@ -33,11 +33,50 @@ class HomeController extends Controller
      * Show the application dashboard.
      *
      * @param Request $request
+     * @return Renderable
+     */
+    public function create(Request $request)
+    {
+        return view('create', ['user' => $request->user()]);
+    }
+
+    /**
+     * Show the application dashboard.
+     * @param $id
+     * @return Renderable
+     */
+    public function detail_info($id)
+    {
+        return view('detail', [
+            'id' => $id
+        ]);
+    }
+
+    /**
+     * Show the application dashboard.
+     *
+     * @param Request $request
      * @return Request
      */
-    public function test(Request $request)
+    public function create_recu(Request $request)
     {
-        $save = new Test;
+        $save = new Infos;
+        $save->info = json_encode(json_decode($request->getContent(), true));
+        $save->active = true;
+        $save->save();
+        return $request;
+    }
+
+    /**
+     * Show the application dashboard.
+     *
+     * @param Request $request
+     * @param $id
+     * @return Request
+     */
+    public function update_recu(Request $request, $id)
+    {
+        $save = Infos::find($id);
         $save->info = json_encode(json_decode($request->getContent(), true));
         $save->save();
         return $request;
@@ -45,9 +84,37 @@ class HomeController extends Controller
 
     /**
      * Show the application dashboard.
+     *
+     * @param Request $request
+     * @param $id
+     * @return Request
      */
-    public function get_test()
+    public function delete_recu(Request $request, $id)
     {
-        return Test::all();
+        $save = Infos::find($id);
+        $save->active = false;
+        $save->save();
+        return $request;
+    }
+
+
+
+    /**
+     * Show the application dashboard.
+     * @return Infos[]
+     */
+    public function get_all()
+    {
+        return Infos::all();
+    }
+
+    /**
+     * Show the application dashboard.
+     * @param $id
+     * @return Infos
+     */
+    public function get_info($id)
+    {
+        return Infos::find($id);
     }
 }

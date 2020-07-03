@@ -14,11 +14,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Auth::routes();
-Route::get('/home', 'HomeController@index')->name('home');
-Route::post('/test', 'HomeController@test');
-Route::get('/test', 'HomeController@get_test')->name('test');
+Route::get('/', 'HomeController@index')->name('home');
+Route::get('/create', 'HomeController@create')->name('create');
+Route::get('/details/{id}', 'HomeController@detail_info')->name('details');
+Route::post('/infos', 'HomeController@create_recu');
+Route::put('/infos/{id}', 'HomeController@update_recu')->where('id', '[0-9]+');
+Route::delete('/infos/{id}', 'HomeController@delete_recu')->where('id', '[0-9]+');
+Route::get('/infos', 'HomeController@get_all');
+Route::get('/infos/{id}', 'HomeController@get_info')->where('id', '[0-9]+');
