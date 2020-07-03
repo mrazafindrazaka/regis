@@ -6,6 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Infos extends Model
 {
-    protected $table = 'json';
+    protected $table = 'quittances';
     protected $fillable = ['info', 'active'];
 }

@@ -205,7 +205,7 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <button class="btn btn-danger mr-3" v-if="isActive === 1" v-on:click="update_regis">Modifier le reçu</button>
+                                <button class="btn btn-danger mr-3" v-if="isActive === 1 && regisseur === user.name" v-on:click="update_regis">Modifier le reçu</button>
                                 <button class="btn btn-dark" v-on:click="redirect_path('/')">Retour au menu</button>
                             </div>
                         </div>
@@ -220,7 +220,7 @@
     import axios from 'axios';
 
     export default {
-        props: ['id'],
+        props: ['id', 'user'],
         data: function () {
             return {
                 stock: {},

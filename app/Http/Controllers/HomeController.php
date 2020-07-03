@@ -43,12 +43,14 @@ class HomeController extends Controller
     /**
      * Show the application dashboard.
      * @param $id
+     * @param Request $request
      * @return Renderable
      */
-    public function detail_info($id)
+    public function detail_info($id, Request $request)
     {
         return view('detail', [
-            'id' => $id
+            'id' => $id,
+            'user' => $request->user()
         ]);
     }
 

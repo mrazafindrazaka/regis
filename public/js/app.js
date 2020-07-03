@@ -2512,7 +2512,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['id'],
+  props: ['id', 'user'],
   data: function data() {
     return {
       stock: {},
@@ -41297,7 +41297,7 @@ var render = function() {
           _c("div", { staticClass: "col-12" }, [
             _c("div", { staticClass: "card" }, [
               _c("div", { staticClass: "card-body" }, [
-                _vm.isActive === 1
+                _vm.isActive === 1 && _vm.regisseur === _vm.user.name
                   ? _c(
                       "button",
                       {
