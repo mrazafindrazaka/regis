@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-md-7 col-sm-12 mb-3">
                 <div class="card">
-                    <div class="card-header text-center">Créer un reçu</div>
+                    <div class="card-header text-center">Modifier un reçu</div>
 
                     <div class="card-body">
                         <div class="row mb-3 f-between">
@@ -195,7 +195,7 @@
                                     </div>
                                     <div class="col-12">
                                         <div>Numéro</div>
-                                        <input type="number" v-model="numero" class="form-control">
+                                        <input type="text" v-model="numero" class="form-control">
                                     </div>
                                 </div>
                             </div>
@@ -204,8 +204,8 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <button class="btn btn-danger mr-3" v-on:click="create_regis">Créer le reçu</button>
-                                <button class="btn btn-dark" v-on:click="redirect_path('/')">Retour au menu</button>
+                                <button class="btn btn-danger mr-3" v-if="isActive === 1 && regisseur === user.name" v-on:click="update_regis">Modifier le reçu</button>
+                                <button class="btn btn-dark" v-on:click="redirect_path('/quittance')">Retour au menu</button>
                             </div>
                         </div>
                     </div>
@@ -219,11 +219,11 @@
     import axios from 'axios';
 
     export default {
-        props: ['user'],
+        props: ['id', 'user'],
         data: function () {
             return {
                 stock: {},
-                regisseur: this.user.name,
+                regisseur: '',
                 cimetiere: '',
                 concession: '',
                 recu: '',
@@ -252,11 +252,12 @@
                 total_montant: '',
                 numero: '',
                 banque: '',
-                checked: []
+                checked: [],
+                isActive: 1
             };
         },
         methods: {
-            create_regis: function () {
+            update_regis: function () {
                 Object.assign(this.stock, {'cimetiere': this.cimetiere});
                 Object.assign(this.stock, {'concession': this.concession});
                 Object.assign(this.stock, {'recu': this.recu});
@@ -287,8 +288,8 @@
                 Object.assign(this.stock, {'paiement': this.checked});
                 Object.assign(this.stock, {'numero': this.numero});
                 Object.assign(this.stock, {'banque': this.banque});
-                axios.post('/infos', this.stock).then(res => {
-                    window.location.href = '/';
+                axios.put('/quittances/' + this.id, this.stock).then(res => {
+                    window.location.href = "/quittance";
                 });
             },
             calc: function () {
@@ -322,6 +323,44 @@
                     total += parseFloat(this.monument_montant);
                 this.total_montant = total;
             }
+        },
+        mounted() {
+            axios.get('/quittances/' + this.id).then(res => {
+                res.data.info = JSON.parse(res.data.info);
+                const data = res.data.info;
+                this.isActive = res.data.active;
+
+                this.regisseur = data.regisseur;
+                this.cimetiere = data.cimetiere;
+                this.concession = data.concession;
+                this.recu = data.recu;
+                this.somme = data.somme;
+                this.concessionsep = data.concessionsep;
+                this.concessionsep_montant = data.concessionsep_montant;
+                this.columbarium1 = data.columbarium1;
+                this.columbarium1_montant = data.columbarium1_montant;
+                this.columbarium2 = data.columbarium2;
+                this.columbarium2_montant = data.columbarium2_montant;
+                this.concessioncine = data.concessioncine;
+                this.concessioncine_montant = data.concessioncine_montant;
+                this.enregistrement = data.enregistrement;
+                this.enregistrement_montant = data.enregistrement_montant;
+                this.inhumation = data.inhumation;
+                this.inhumation_count = data.inhumation_count;
+                this.inhumation_montant = data.inhumation_montant;
+                this.vacation = data.vacation;
+                this.vacation_count = data.vacation_count;
+                this.vacation_montant = data.vacation_montant;
+                this.caveau_count = data.caveau_count;
+                this.caveau = data.caveau;
+                this.caveau_montant = data.caveau_montant;
+                this.monument = data.monument;
+                this.monument_montant = data.monument_montant;
+                this.total_montant = data.total_montant;
+                this.numero = data.numero;
+                this.banque = data.banque;
+                this.checked = data.paiement;
+            });
         }
     }
 </script>

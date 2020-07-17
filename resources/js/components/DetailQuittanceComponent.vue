@@ -1,6 +1,5 @@
 <template>
     <div class="container-fluid">
-        <div id="test"></div>
         <div class="row">
             <div class="col-md-7 col-sm-12 mb-3">
                 <div class="card">
@@ -206,7 +205,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <button class="btn btn-danger mr-3" v-if="isActive === 1 && regisseur === user.name" v-on:click="update_regis">Modifier le reçu</button>
-                                <button class="btn btn-dark" v-on:click="redirect_path('/')">Retour au menu</button>
+                                <button class="btn btn-dark" v-on:click="redirect_path('/quittance')">Retour au menu</button>
                             </div>
                         </div>
                     </div>
@@ -289,8 +288,8 @@
                 Object.assign(this.stock, {'paiement': this.checked});
                 Object.assign(this.stock, {'numero': this.numero});
                 Object.assign(this.stock, {'banque': this.banque});
-                axios.put('/infos/' + this.id, this.stock).then(res => {
-                    window.location.href = "/";
+                axios.put('/quittances/' + this.id, this.stock).then(res => {
+                    window.location.href = "/quittance";
                 });
             },
             calc: function () {
@@ -326,7 +325,7 @@
             }
         },
         mounted() {
-            axios.get('/infos/' + this.id).then(res => {
+            axios.get('/quittances/' + this.id).then(res => {
                 res.data.info = JSON.parse(res.data.info);
                 const data = res.data.info;
                 this.isActive = res.data.active;

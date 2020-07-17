@@ -15,15 +15,20 @@ window.Vue = require('vue');
  * Vue components. It will recursively scan this directory for the Vue
  * components and automatically register them with their "basename".
  *
- * Eg. ./components/CreateComponent.vue -> <example-component></example-component>
+ * Eg. ./components/CreateQuittanceComponent.vue -> <example-component></example-component>
  */
 
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('create-component', require('./components/CreateComponent.vue').default);
-Vue.component('detail-component', require('./components/DetailComponent.vue').default);
 Vue.component('home-component', require('./components/HomeComponent.vue').default);
+Vue.component('create-quittance-component', require('./components/CreateQuittanceComponent.vue').default);
+Vue.component('detail-quittance-component', require('./components/DetailQuittanceComponent.vue').default);
+Vue.component('quittance-component', require('./components/QuittanceComponent.vue').default);
+
+Vue.component('create-facture-component', require('./components/CreateFactureComponent.vue').default);
+Vue.component('detail-facture-component', require('./components/DetailFactureComponent.vue').default);
+Vue.component('facture-component', require('./components/FactureComponent.vue').default);
 
 Vue.mixin({
     methods: {
