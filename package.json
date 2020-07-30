@@ -24,6 +24,8 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
+        "jspdf": "^1.5.3",
+        "jspdf-autotable": "^3.5.6",
         "vue-moment": "^4.1.0"
     }
 }

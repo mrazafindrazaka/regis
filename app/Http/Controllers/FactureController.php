@@ -68,6 +68,7 @@ class FactureController extends Controller
         $save->number_facture = $stock["number_facture"];
         $save->description = $stock["description"];
         $save->regisseur = $stock["regisseur"];
+        $save->active = true;
         $save->save();
         return $request;
     }
@@ -82,7 +83,11 @@ class FactureController extends Controller
     public function update_facture(Request $request, $id)
     {
         $save = Factures::find($id);
-        $save->info = json_encode(json_decode($request->getContent(), true));
+        $stock = json_decode($request->getContent(), true);
+        $save->info = json_encode($stock["info"]);
+        $save->number_facture = $stock["number_facture"];
+        $save->description = $stock["description"];
+        $save->regisseur = $stock["regisseur"];
         $save->save();
         return $request;
     }
@@ -97,7 +102,8 @@ class FactureController extends Controller
     public function delete_facture(Request $request, $id)
     {
         $save = Factures::find($id);
-        $save->delete();
+        $save->active = false;
+        $save->save();
         return $request;
     }
 

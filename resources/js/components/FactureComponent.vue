@@ -15,6 +15,7 @@
                         <th scope="col">Crée le</th>
                         <th scope="col">Modifié le</th>
                         <th scope="col">Régisseur</th>
+                        <th scope="col">État</th>
                         <th scope="col">Action</th>
                     </tr>
                     </thead>
@@ -24,9 +25,12 @@
                         <td>{{item.created_at | moment("DD/MM/YYYY à HH:mm")}}</td>
                         <td>{{item.updated_at | moment("DD/MM/YYYY à HH:mm")}}</td>
                         <td>{{item.regisseur}}</td>
+                        <td v-if="item.active === 1">Actif</td>
+                        <td v-if="item.active === 0">Annulé</td>
                         <td>
                             <button class="btn btn-dark" v-on:click="redirect_path('/facture/details/' + item.id)">Détail</button>
-                            <button class="btn btn-danger" v-if="item.regisseur === user.name" v-on:click="delete_item(item.id)">Supprimer</button>
+                            <button class="btn btn-danger" v-if="item.regisseur === user.name" v-on:click="desactivate(item.id)">Annuler</button>
+                            <button class="btn btn-primary" v-on:click="generate_pdf(item, 'facture')">Imprimer</button>
                         </td>
                     </tr>
                     </tbody>
@@ -47,8 +51,8 @@
             };
         },
         methods: {
-            delete_item: function (id) {
-                let conf = confirm('Souhaitez-vous vraiment supprimer cette facture?');
+            desactivate: function (id) {
+                let conf = confirm('Souhaitez-vous vraiment annuler cette facture?');
 
                 if (conf === true) {
                     axios.delete('/factures/' + id).then(res => {

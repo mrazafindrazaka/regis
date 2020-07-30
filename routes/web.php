@@ -37,3 +37,5 @@ Route::put('/factures/{id}', 'FactureController@update_facture')->where('id', '[
 Route::delete('/factures/{id}', 'FactureController@delete_facture')->where('id', '[0-9]+');
 Route::get('/factures', 'FactureController@get_all');
 Route::get('/factures/{id}', 'FactureController@get_info')->where('id', '[0-9]+');
+
+Route::get('/test', 'HomeController@test');

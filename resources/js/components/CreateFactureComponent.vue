@@ -62,7 +62,7 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <button class="btn btn-danger mr-3" v-on:click="create_regis">
+                                <button class="btn btn-danger mr-3" v-on:click="create_facture">
                                     Créer la facture
                                 </button>
                                 <button class="btn btn-dark" v-on:click="redirect_path('/facture')">
@@ -93,7 +93,7 @@
             };
         },
         methods: {
-            create_regis: function () {
+            create_facture: function () {
                 Object.assign(this.stock, {'info': this.info});
                 Object.assign(this.stock, {'number_facture': this.number_facture});
                 Object.assign(this.stock, {'description': this.description});
@@ -115,11 +115,27 @@
                 for (let count = 0; count < 12; count++) {
                     this.info.push({date: '', name: '', designation: '', montant: ''});
                 }
+            },
+            generate_number_facture: function () {
+                axios.get('/factures').then(res => {
+                    let current_year = new Date().getFullYear();
+                    let count = 0;
+
+                    res.data.forEach(facture => {
+                        let tmp_date = new Date(facture.created_at);
+                        if (tmp_date.getFullYear() === current_year) {
+                            count++;
+                        }
+                    });
+                    this.number_facture = current_year + '/' + (count + 1);
+                }).catch(error => {
+                   console.error(error);
+                });
             }
         },
         created() {
             this.regisseur = this.user.name;
-            this.number_facture = '2019/2';
+            this.generate_number_facture();
         },
         mounted() {
             this.init_info();

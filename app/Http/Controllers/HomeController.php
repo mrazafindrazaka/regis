@@ -26,4 +26,15 @@ class HomeController extends Controller
     {
         return view('home', ['user' => $request->user()]);
     }
+
+    /**
+     * Show the application dashboard.
+     *
+     * @param Request $request
+     * @return string
+     */
+    public function test(Request $request)
+    {
+        return view('test');
+    }
 }

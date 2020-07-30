@@ -9,6 +9,14 @@
                         <div class="row mb-3 f-between">
                             <div class="col-4">
                                 <div class="row">
+                                    <div class="col-4 f-end">N° de facture</div>
+                                    <div class="col-8">
+                                        <input type="text" v-model="num_facture" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="row">
                                     <div class="col-4 f-end">Cimetière</div>
                                     <div class="col-8">
                                         <select v-model="cimetiere" class="form-control">
@@ -252,6 +260,7 @@
                 total_montant: '',
                 numero: '',
                 banque: '',
+                num_facture: '',
                 checked: []
             };
         },
@@ -287,6 +296,7 @@
                 Object.assign(this.stock, {'paiement': this.checked});
                 Object.assign(this.stock, {'numero': this.numero});
                 Object.assign(this.stock, {'banque': this.banque});
+                Object.assign(this.stock, {'num_facture': this.num_facture});
                 axios.post('/quittances', this.stock).then(res => {
                     window.location.href = '/quittance';
                 });
