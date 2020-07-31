@@ -14,7 +14,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Auth::routes();
+Auth::routes([
+    'register' => false,
+    'reset' => false,
+    'verify' => false
+]);
 
 Route::get('/', 'HomeController@index')->name('home');
 
@@ -37,5 +41,12 @@ Route::put('/factures/{id}', 'FactureController@update_facture')->where('id', '[
 Route::delete('/factures/{id}', 'FactureController@delete_facture')->where('id', '[0-9]+');
 Route::get('/factures', 'FactureController@get_all');
 Route::get('/factures/{id}', 'FactureController@get_info')->where('id', '[0-9]+');
+
+Route::get('/user', 'AdminController@index')->name('user');
+Route::get('/user/create', 'AdminController@create')->name('user_create');
+
+Route::post('/users', 'AdminController@create_user');
+Route::delete('/users/{id}', 'AdminController@delete_user')->where('id', '[0-9]+');
+Route::get('/users', 'AdminController@get_all');
 
 Route::get('/test', 'HomeController@test');

@@ -10,6 +10,9 @@
             <div class="col-6">
                 <button class="btn btn-lg btn-dark" v-on:click="redirect_path('/facture')">Liste des factures</button>
             </div>
+            <div v-if="user.is_admin" class="col-6 mt-5">
+                <button class="btn btn-lg btn-dark" v-on:click="redirect_path('/user')">Liste des régisseurs</button>
+            </div>
         </div>
     </div>
 </template>

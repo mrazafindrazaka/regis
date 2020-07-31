@@ -35,6 +35,9 @@ Vue.component('create-facture-component', require('./components/CreateFactureCom
 Vue.component('detail-facture-component', require('./components/DetailFactureComponent.vue').default);
 Vue.component('facture-component', require('./components/FactureComponent.vue').default);
 
+Vue.component('create-user-component', require('./components/CreateUserComponent.vue').default);
+Vue.component('user-component', require('./components/UserComponent.vue').default);
+
 Vue.mixin({
     methods: {
         redirect_path: function (path) {
@@ -105,13 +108,69 @@ Vue.mixin({
                 doc.text(90, 280, 'SIRET : 21540395700016');
                 doc.text(40, 285, 'REGIE DES CIMETIERES DE NANCY : IBAN FR76 1007 1540 0000 0020 1368 225 BIC TRPUFRP1');
             } else if (type === 'quittance') {
+                doc.setFontSize(11);
                 doc.text(20, 20, 'Reçu N° : ' + item.id);
                 doc.addImage(img, 'PNG', 80, 10, 60, 21);
                 let date = new Date(item.created_at);
                 doc.text(160, 20, 'NANCY, le ' + date.toLocaleDateString());
+                doc.text(20, 25, 'N° de facture : ' + item.info.num_facture);
                 doc.text(90, 45, 'REÇU DE FACTURE');
+                doc.text(20, 55, 'Cimetière ' + item.info.cimetiere);
+                doc.text(130, 55, 'Concession :\n' + item.info.concession);
+                doc.text(20, 80, 'Reçu de Mr/Mme. ' + item.info.recu);
+                doc.text(20, 85, 'La somme de : ' + item.info.somme);
+                doc.text(20, 95, 'Détaillée ci-après : ');
+                doc.text(160, 95, 'Montant');
+
+                doc.text(20, 105, 'Concession de sépulture\npour une durée de : ' + item.info.concessionsep);
+                doc.text(160, 105, item.info.concessionsep_montant + ' €');
+
+                doc.text(20, 120, 'Columbarium\n1 case de 2 urnes pour : ' + item.info.columbarium1);
+                doc.text(160, 120, item.info.columbarium1_montant + ' €');
+
+                doc.text(20, 135, 'Columbarium\n1 case de 4 urnes pour : ' + item.info.columbarium2);
+                doc.text(160, 135, item.info.columbarium2_montant + ' €');
+
+                doc.text(20, 150, 'Concession cinéraire\npour une durée de : ' + item.info.concessioncine);
+                doc.text(160, 150, item.info.concessioncine_montant + ' €');
+
+                doc.text(20, 165, 'Enregistrement : ' + item.info.enregistrement);
+                doc.text(160, 165, item.info.enregistrement_montant + ' €');
+
+                doc.text(20, 180, 'Taxe inhumation : ' + item.info.inhumation);
+                doc.text(160, 180, item.info.inhumation_montant + ' €');
+
+                doc.text(20, 195, 'Vacation de police : ' + item.info.vacation);
+                doc.text(160, 195, item.info.vacation_montant + ' €');
+
+                doc.text(20, 210, 'Caveau désaffecté de : ' + item.info.caveau);
+                doc.text(160, 210, item.info.caveau_montant + ' €');
+
+                doc.text(20, 225, 'Vente de monument désaffecté : ' + item.info.monument);
+                doc.text(160, 225, item.info.monument_montant + ' €');
+
+                doc.text(145, 240, 'Total : ');
+                doc.text(160, 240, item.info.total_montant + ' €');
+
+                doc.text(20, 250, 'Le régisseur : ' + item.info.regisseur);
+
+                doc.text(20, 260, 'Mode de paiement : ');
+
+                doc.text(100, 260, 'Banque : \n' + item.info.banque);
+                doc.text(100, 275, 'Numéro : \n' + item.info.numero);
+
+                let count = 5;
+                item.info.paiement.forEach(mode => {
+                    doc.text(20, 260 + count, mode);
+                    count += 5;
+                });
             }
-            //doc.autoPrint();
+            if (item.active === 0) {
+                doc.setFontSize(15);
+                doc.setTextColor('red');
+                doc.text(160, 10, 'Annulée');
+            }
+            doc.autoPrint();
             window.open(doc.output('bloburl'), '_blank');
         }
     }

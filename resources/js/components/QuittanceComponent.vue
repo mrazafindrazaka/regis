@@ -29,7 +29,7 @@
                         <td v-if="item.active === 0">Annulé</td>
                         <td>
                             <button class="btn btn-dark" v-on:click="redirect_path('/quittance/details/' + item.id)">Détail</button>
-                            <button class="btn btn-danger" v-if="item.active === 1 && item.info.regisseur === user.name" v-on:click="desactivate(item.id)">Annuler</button>
+                            <button class="btn btn-danger" v-if="item.active === 1 && item.info.regisseur === user.name" v-on:click="desactivate(item.id, item)">Annuler</button>
                             <button class="btn btn-primary" v-on:click="generate_pdf(item, 'quittance')">Imprimer</button>
                         </td>
                     </tr>
@@ -51,7 +51,7 @@
             };
         },
         methods: {
-            desactivate: function (id) {
+            desactivate: function (id, item) {
                 let conf = confirm('Souhaitez-vous vraiment annuler ce reçu?');
 
                 if (conf === true) {
@@ -61,6 +61,8 @@
                             this.list.forEach(el => {
                                 el.info = JSON.parse(el.info);
                             });
+                            item.active = 0;
+                            this.generate_pdf(item, 'quittance');
                         });
                     });
                 }

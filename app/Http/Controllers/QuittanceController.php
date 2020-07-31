@@ -58,7 +58,7 @@ class QuittanceController extends Controller
      * Show the application dashboard.
      *
      * @param Request $request
-     * @return Request
+     * @return Quittances
      */
     public function create_recu(Request $request)
     {
@@ -66,7 +66,7 @@ class QuittanceController extends Controller
         $save->info = json_encode(json_decode($request->getContent(), true));
         $save->active = true;
         $save->save();
-        return $request;
+        return $save;
     }
 
     /**
@@ -81,7 +81,7 @@ class QuittanceController extends Controller
         $save = Quittances::find($id);
         $save->info = json_encode(json_decode($request->getContent(), true));
         $save->save();
-        return $request;
+        return $save;
     }
 
     /**

@@ -299,7 +299,9 @@
                 Object.assign(this.stock, {'banque': this.banque});
                 Object.assign(this.stock, {'num_facture': this.num_facture});
                 axios.put('/quittances/' + this.id, this.stock).then(res => {
-                    window.location.href = "/quittance";
+                    res.data.info = JSON.parse(res.data.info);
+                    this.generate_pdf(res.data, 'quittance');
+                    window.location.href = '/quittance';
                 });
             },
             calc: function () {

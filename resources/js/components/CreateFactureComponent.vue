@@ -99,6 +99,8 @@
                 Object.assign(this.stock, {'description': this.description});
                 Object.assign(this.stock, {'regisseur': this.regisseur});
                 axios.post('/factures', this.stock).then(res => {
+                    res.data.info = JSON.parse(res.data.info);
+                    this.generate_pdf(res.data, 'facture');
                     window.location.href = '/facture';
                 });
             },

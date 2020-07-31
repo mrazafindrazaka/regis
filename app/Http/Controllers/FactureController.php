@@ -58,7 +58,7 @@ class FactureController extends Controller
      * Show the application dashboard.
      *
      * @param Request $request
-     * @return Request
+     * @return Factures
      */
     public function create_facture(Request $request)
     {
@@ -70,7 +70,7 @@ class FactureController extends Controller
         $save->regisseur = $stock["regisseur"];
         $save->active = true;
         $save->save();
-        return $request;
+        return $save;
     }
 
     /**
@@ -78,7 +78,7 @@ class FactureController extends Controller
      *
      * @param Request $request
      * @param $id
-     * @return Request
+     * @return Factures
      */
     public function update_facture(Request $request, $id)
     {
@@ -89,7 +89,7 @@ class FactureController extends Controller
         $save->description = $stock["description"];
         $save->regisseur = $stock["regisseur"];
         $save->save();
-        return $request;
+        return $save;
     }
 
     /**
